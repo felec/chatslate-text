@@ -7,10 +7,11 @@ from dotenv import load_dotenv
 load_dotenv()
 token = os.environ.get("API_TOKEN")
 
-sentence = sys.argv[1]
+trans_sentence = sys.argv[1]
+slug = sys.argv[2]
 
 headers = {"Authorization": f"Bearer {token}"}
-API_URL = "https://api-inference.huggingface.co/models/facebook/blenderbot_small-90M"
+API_URL = f'https://api-inference.huggingface.co/models/Helsinki-NLP/opus-mt-{slug}'
 
 def query(payload):
     data = json.dumps(payload)
@@ -19,7 +20,7 @@ def query(payload):
 
 data = query(
     {
-        "inputs": "Меня зовут Вольфганг и я живу в Берлине",
+        "inputs": trans_sentence,
     }
 )
 
