@@ -41,10 +41,10 @@ main() {
     source .venv/bin/activate
 
     lang=""
+    t_lang=""
     name=""
     prev_inputs=()
     prev_responses=()
-    # name=$(python listen.py "./models/recog/en/wav2vec2-large-xlsr-53-english")
 
     echo -ne "Who would you like to talk to?\n1) Sofia (Español)\n2) Emma (Français)\nSelect: "
 
@@ -53,10 +53,12 @@ main() {
     echo $selection
 
     if [[ $selection == 1 ]]; then
-        lang="es-en"
+        lang="en-es"
+        t_lang="es-en"
         name="Sofia"
     else
-        lang="fr-en"
+        lang="en-fr"
+        t_lang="fr-en"
         name="Emma"
     fi
 
@@ -70,17 +72,26 @@ main() {
         exit 1
     fi
 
-    convo=$(python converse.py $input)
+    translated_input=$(python translate.py "$input" "$lang")
+    echo -ne "Translation: $translated_input"
 
-    echo $convo
+    response=$(python converse.py $input)
+    translated_response=$(python translate.py "$response" "$lang")
+    echo -ne "\n$name: $response"
+    echo -ne "\nTranslation: $translated_response"
 
     while true; do
-        echo -ne "You: "
+        echo -ne "\nYou: "
         read inp
 
-        convo=$(python converse.py $inp)
+        translated_inp=$(python translate.py "$inp" "$lang")
+        echo -ne "Translation: $translated_inp"
 
-        echo "$name: $convo"
+        res=$(python converse.py $inp)
+        translated_res=$(python translate.py "$res" "$lang")
+        echo -ne "\n$name: $res"
+        echo -ne "\nTranslation: $translated_res"
+
     done
 }
 

@@ -24,4 +24,5 @@ data = query(
     }
 )
 
-print(data)
+print(data[0]['translation_text'])
+sys.exit(0)

@@ -12,7 +12,7 @@ new_sentence = sys.argv[1]
 # past_responses = sys.argv[3]
 
 headers = {"Authorization": f"Bearer {token}"}
-API_URL = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-large"
+API_URL = "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill"
 
 def query(payload):
     data = json.dumps(payload)
